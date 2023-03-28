@@ -1,24 +1,54 @@
 import { useState } from 'react'
 
-const Form = () => {
+const Form = (props) => {
+  const [name, setName] = useState('')
+  const [URL, setURL] = useState('')
+
   const handleChange = (event) => {
-    /*
-            TODO - Logic for changing state based on form changes
-        */
+    if (event.target.id === "name") {
+      setName(event.target.value)
+    } else {
+      setURL(event.target.value)
+    }
   }
 
-  const onFormSubmit = (event) => {
-    // to prevent page reload on form submit
+  const onFormSubmit = (event) => {   
     event.preventDefault()
 
-    /*
-            TODO - Logic for calling props to handle submission and setting state changes
-        */
+    if (name !== '' && URL !== '') {
+      props.addLink({name: name, URL: URL})
+      setName('')
+      setURL('')
+    } else {
+      console.log("empty name and/or url")
+    }
   }
 
   return (
     <form>
-      {/* TODO - Logic for returning a form element with labels and inputs for link name and URL */}
+      <label>
+        Name
+        <input
+          id="name"
+          type="text"
+          onChange={handleChange}
+          value={name}
+        />
+      </label>
+      <label>
+        URL
+        <input
+          id="URL"
+          type="text"
+          onChange={handleChange}
+          value={URL}
+        />
+      </label>
+      <input
+        type="submit"
+        value="add"
+        onClick={onFormSubmit}
+      />
     </form>
   )
 }
